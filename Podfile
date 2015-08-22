@@ -2,7 +2,7 @@
  use_frameworks!
 
 target 'DroppingBall' do
-pod 'AFNetworking'
+    pod 'ReactiveCocoa'
 end
 
 target 'DroppingBallTests' do
