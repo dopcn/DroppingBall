@@ -19,23 +19,23 @@ class ViewController: UIViewController {
     let ball: UIView = {
         let tmp = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         tmp.layer.cornerRadius = 50
-        tmp.backgroundColor = UIColor.orangeColor()
+        tmp.backgroundColor = UIColor.orange
         return tmp
         }()
     
-    let bottom = UIView(frame: CGRectZero)
+    let bottom = UIView(frame: CGRect.zero)
     
     var animator: UIDynamicAnimator!
     var peripheralManager: CBPeripheralManager!
-    var characteristic = CBMutableCharacteristic(type: CBUUID(string: ViewController.characteristicUUID), properties: .Notify, value: nil, permissions: .Readable)
+    var characteristic = CBMutableCharacteristic(type: CBUUID(string: ViewController.characteristicUUID), properties: .notify, value: nil, permissions: .readable)
     
     
     override func loadView() {
         super.loadView()
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
         
         bottom.frame = CGRect(x: 0, y: view.frame.size.height-10, width: view.frame.size.width/2, height: 10)
-        bottom.backgroundColor = UIColor.lightGrayColor()
+        bottom.backgroundColor = UIColor.lightGray
         view.addSubview(bottom)
         
         view.addSubview(ball)
@@ -43,18 +43,18 @@ class ViewController: UIViewController {
         
         view.addSubview(statusLabel)
         statusLabel.center = view.center
-        statusLabel.textAlignment = .Center
+        statusLabel.textAlignment = .center
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let gr = UIPanGestureRecognizer(target: self, action: "panned:")
+        let gr = UIPanGestureRecognizer(target: self, action: #selector(ViewController.panned(_:)))
         ball.addGestureRecognizer(gr)
         
         animator = UIDynamicAnimator(referenceView: view)
         let gravority = UIGravityBehavior(items: [ball])
         let collison = UICollisionBehavior(items: [ball])
-        collison.addBoundaryWithIdentifier("boundary", forPath: UIBezierPath(rect: bottom.frame))
+        collison.addBoundary(withIdentifier: "boundary" as NSCopying, for: UIBezierPath(rect: bottom.frame))
         let itemBehavior = UIDynamicItemBehavior(items: [ball])
         itemBehavior.elasticity = 0.6
         animator.addBehavior(gravority)
@@ -62,14 +62,14 @@ class ViewController: UIViewController {
         
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
         
-        let gr2 = UITapGestureRecognizer(target: self, action: "tapped:")
+        let gr2 = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapped(_:)))
         view.addGestureRecognizer(gr2)
         
         
-        statusLabel.hidden = true
+        statusLabel.isHidden = true
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         peripheralManager.stopAdvertising()
         super.viewWillDisappear(animated)
     }
@@ -81,24 +81,24 @@ class ViewController: UIViewController {
 
 extension ViewController: CBPeripheralManagerDelegate {
     
-    func peripheralManagerDidUpdateState(peripheral: CBPeripheralManager) {
-        guard peripheral.state == .PoweredOn else {
+    func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {
+        guard peripheral.state == .poweredOn else {
             print("bluetooth is power off\n")
             return
         }
         let service = CBMutableService(type: CBUUID(string: ViewController.serviceUUID), primary: true)
         service.characteristics = [characteristic]
-        peripheralManager.addService(service)
+        peripheralManager.add(service)
         peripheralManager.startAdvertising([CBAdvertisementDataServiceUUIDsKey:[CBUUID(string: ViewController.serviceUUID)]])
         statusLabel.text = "begin advertising"
     }
     
-    func peripheralManager(peripheral: CBPeripheralManager, central: CBCentral, didSubscribeToCharacteristic characteristic: CBCharacteristic) {
+    func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didSubscribeTo characteristic: CBCharacteristic) {
         statusLabel.text = "did subscribed"
         
     }
     
-    func peripheralManager(peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFromCharacteristic characteristic: CBCharacteristic) {
+    func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
         statusLabel.text = "did unsubscribe"
     }
     
@@ -106,21 +106,21 @@ extension ViewController: CBPeripheralManagerDelegate {
 
 extension ViewController {
     
-    func panned(sender: UIPanGestureRecognizer) {
-        ball.center = sender.locationInView(view)
-        if sender.state == UIGestureRecognizerState.Ended {
+    func panned(_ sender: UIPanGestureRecognizer) {
+        ball.center = sender.location(in: view)
+        if sender.state == UIGestureRecognizerState.ended {
             if ball.center.x > self.view.frame.size.width/2 {
                 let json = ["x": ball.center.x - self.view.frame.size.width/2, "y": ball.center.y + 100]
-                let data = try! NSJSONSerialization.dataWithJSONObject(json, options: [])
-                peripheralManager.updateValue(data, forCharacteristic: characteristic, onSubscribedCentrals: nil)
+                let data = try! JSONSerialization.data(withJSONObject: json, options: [])
+                peripheralManager.updateValue(data, for: characteristic, onSubscribedCentrals: nil)
                 statusLabel.text = "data sended"    
             }
-            animator.updateItemUsingCurrentState(ball)
+            animator.updateItem(usingCurrentState: ball)
         }
     }
     
-    func tapped(sender: UITapGestureRecognizer) {
+    func tapped(_ sender: UITapGestureRecognizer) {
         ball.center = CGPoint(x: 200, y: 200)
-        animator.updateItemUsingCurrentState(ball)
+        animator.updateItem(usingCurrentState: ball)
     }
 }
