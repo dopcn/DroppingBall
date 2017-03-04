@@ -167,6 +167,7 @@
 					};
 					87534ADD1B5A034E0061ADFA = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = XPEGGG8TY7;
 						LastSwiftMigration = 0820;
 						TestTargetID = 87534AC81B5A034E0061ADFA;
 					};
@@ -273,6 +274,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iOS Development: Weizhou Feng (77R38U7V2M)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = XPEGGG8TY7;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -293,7 +295,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "628352b1-9b78-4dec-9f52-df72937fa7d2";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -322,6 +323,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iOS Development: Weizhou Feng (77R38U7V2M)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = XPEGGG8TY7;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -334,7 +336,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "628352b1-9b78-4dec-9f52-df72937fa7d2";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
